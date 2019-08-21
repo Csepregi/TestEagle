@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using System;
 
 namespace InterviewTest.Controllers.Home
 {
@@ -24,19 +25,30 @@ namespace InterviewTest.Controllers.Home
         public ActionResult HotelsWebService()
         {
             // EXERCISE #2 CODE HERE
+            HotelService.HotelsSoapClient hotel = new HotelService.HotelsSoapClient();
+            hotel.ClientCredentials.UserName.UserName = "aeTraining";
+            hotel.ClientCredentials.UserName.Password = "ZZZ";
+            hotel.GetHotel(hotel,false, 105304);
+      
             return View();
         }
 
         [HttpGet]
         public ActionResult CustomValidator()
         {
-            return View();
+            var model = new Validation();
+            return View(model);
         }
 
+        //Common/AtLeastOneRequired class 
         [HttpPost]
-        public ActionResult CustomValidatorPost()
+        public ActionResult CustomValidatorPost(Validation model) 
         {
             //EXERCISE #3 CODE HERE
+            if (ModelState.IsValid)
+            {
+                return View(model);
+            }
             return View();
         }
 

@@ -1,9 +1,30 @@
 ﻿@model dynamic
 
 @{
+    /**/
+
+
     ViewBag.Title = "Custom Validator";
     Layout = "~/Views/_Layout.cshtml";
 }
+
+    <script type="text/javascript">
+        jQuery.validator.unobtrusive.adapters.add(
+            'atleastonerequired', ['properties'], function (options) {
+                options.rules['atleastonerequired'] = options.params;
+                options.messages['atleastonerequired'] = options.message;
+            }
+        );
+
+        jQuery.validator.addMethod('atleastonerequired', function (value, element, params) {
+            var properties = params.properties.split(',');
+            var values = $.map(properties, function (property, index) {
+                var val = $('#' + property).val();
+                return val != '' ? val : null;
+            });
+            return values.length > 0;
+        }, '');
+    </script>
 
 <p>@Html.ActionLink("< Back", "Index")</p>
 
@@ -32,7 +53,7 @@
                     </select>
                 </div>
             </div>
-            
+
             <div class="col-sm-6">
                 <div class="form-group">
                     <input type="text" id="txtRegion" name="txtRegion" class="form-control" />
@@ -40,8 +61,11 @@
             </div>
 
             <div class="col-sm-3">
-                <button type="submit" name="btnSubmit" id="btnSubmit" class="btn btn-default">Submit</button>
+                <button type="submit" name="btnSubmit" id="btnSubmit" onClick="return empty()" class="btn btn-default">Submit</button>
             </div>
         </div>
     </div>
 }
+
+
+<script src="~/Scripts/validation.js"></script>
