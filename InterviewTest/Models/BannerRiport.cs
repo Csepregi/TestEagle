@@ -14,10 +14,10 @@ namespace InterviewTest.Models
             {
                 get
                 {
-                    string connectionString =
-                        ConfigurationManager.ConnectionStrings["Eagle"].ConnectionString;
+                   
+                string connectionString = ConfigurationManager.AppSettings["ConnectionString"].ToString();
 
-                    List<Banner> banners = new List<Banner>();
+                List<Banner> banners = new List<Banner>();
 
                     using (SqlConnection con = new SqlConnection(connectionString))
                     {
