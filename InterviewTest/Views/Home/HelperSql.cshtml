@@ -36,6 +36,20 @@ CREATE TABLE [dbo].[BannerTracking] (
 	[CreateDate] [datetime] NULL 
 ) ON [PRIMARY]
 GO
+
+/*Store Procedure for the Banner Tracking Report*/
+Create procedure [dbo].[BannerClicksAImpression]
+as
+Begin
+select B.Name, B.Link, SUM(BT.ImpressionCount) AS ImpressionCount, SUM(BT.ClickCount) AS ClickCount from Banner B
+join BannerTracking BT on B.BannerId = BT.BannerId
+where CreateDate between  '2015-11-18' and '2015-11-19'
+group by B.Name, B.Link
+end
+GO
+
+
+
 INSERT [dbo].[Banner] ([BannerId], [Name], [Link], [Image], [AltText], [Target], [IsActive]) VALUES (2, N'Satisfaction - Large', N'http://localhost', N'logo-satisfaction-lg.gif', N'100% Home Satisfaction Guaranteed', NULL, 1)
 INSERT [dbo].[Banner] ([BannerId], [Name], [Link], [Image], [AltText], [Target], [IsActive]) VALUES (3, N'Privacy - Large', N'http://localhost', N'logo-privacy-lg.gif', N'We Respect Your Privacy', NULL, 1)
 INSERT [dbo].[Banner] ([BannerId], [Name], [Link], [Image], [AltText], [Target], [IsActive]) VALUES (4, N'Verisign Seal - Large', N'http://localhost', N'vsign-lg.gif', N'Verisign Secured - click here to verify', NULL, 1)
